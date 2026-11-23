@@ -23,11 +23,12 @@
                       "Entity": "gold_fact_fx_rates"
                     }
                   },
-                  "Property": "45-Day Change %"
+                  "Property": "45-Day Change (%)"
                 }
               },
-              "queryRef": "gold_fact_fx_rates.45-Day Change %",
-              "nativeQueryRef": "45-Day Change %"
+              "queryRef": "gold_fact_fx_rates.45-Day Change (%)",
+              "nativeQueryRef": "45-Day Change (%)",
+              "format": "0.00 %;-0.00 %;0.00 %"
             }
           ]
         }
@@ -174,28 +175,8 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "e9b27bb0305573258022",
+        "name": "8035ca7ba4b45427258d",
         "ordinal": 0,
-        "field": {
-          "Aggregation": {
-            "Expression": {
-              "Column": {
-                "Expression": {
-                  "SourceRef": {
-                    "Entity": "gold_fact_fx_rates"
-                  }
-                },
-                "Property": "exchange_rate"
-              }
-            },
-            "Function": 1
-          }
-        },
-        "type": "Advanced",
-        "howCreated": "User"
-      },
-      {
-        "name": "0dcf25a15db678a780b2",
         "field": {
           "Measure": {
             "Expression": {
@@ -203,7 +184,7 @@
                 "Entity": "gold_fact_fx_rates"
               }
             },
-            "Property": "45-Day Change %"
+            "Property": "45-Day Change (%)"
           }
         },
         "type": "Advanced"

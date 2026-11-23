@@ -16,32 +16,38 @@ table gold_fact_fx_rates
 
 		changedProperty = Name
 
-	measure '45-Day Change %' = ```
+	measure '45-Day Change (%)' = ```
 			
-			VAR MaxDate = MAX('gold_fact_fx_rates'[rate_date])
-			VAR MinDate = 
+			VAR _MaxDate = MAX('gold_fact_fx_rates'[rate_date])
+			
+			VAR _FirstActualDate = 
 			    CALCULATE(
 			        MIN('gold_fact_fx_rates'[rate_date]),
-			        DATESINPERIOD('gold_fact_fx_rates'[rate_date], MaxDate, -45, DAY)
+			        'gold_fact_fx_rates'[rate_date] >= _MaxDate - 42,
+			        NOT(ISBLANK('gold_fact_fx_rates'[exchange_rate]))
 			    )
-			VAR FirstRate = 
+			
+			VAR _LatestRate = 
 			    CALCULATE(
 			        AVERAGE('gold_fact_fx_rates'[exchange_rate]),
-			        'gold_fact_fx_rates'[rate_date] = MinDate
+			        'gold_fact_fx_rates'[rate_date] = _MaxDate
 			    )
-			VAR LastRate = 
+			
+			VAR _StartRate = 
 			    CALCULATE(
 			        AVERAGE('gold_fact_fx_rates'[exchange_rate]),
-			        'gold_fact_fx_rates'[rate_date] = MaxDate
+			        'gold_fact_fx_rates'[rate_date] = _FirstActualDate
 			    )
-			VAR PctChange = DIVIDE(LastRate - FirstRate, FirstRate)
+			
 			RETURN
-			    FORMAT(PctChange, "+0.00%;-0.00%;0.00%")
+			    DIVIDE(_LatestRate - _StartRate, _StartRate)
 			
 			```
 		lineageTag: dbd9a268-26e2-4dd9-9026-a803261be066
 
 		changedProperty = Name
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure 'All Economies GDP (USD)' =
 			
