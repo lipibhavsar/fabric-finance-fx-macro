@@ -1,0 +1,11 @@
+expression 'DirectLake - lh_finance_fx_macro' =
+		let
+		    Source = AzureStorage.DataLake("https://onelake.dfs.fabric.microsoft.com/24fc40af-3cf5-495e-be3e-02846833798a/922f950f-5aec-4c3c-8387-bc8532f2e77c", [HierarchicalNavigation=true])
+		in
+		    Source
+	lineageTag: 511ee291-6b84-458a-ac6d-5288c8c64aa9
+
+	annotation PBI_IncludeFutureArtifacts = False
+
+	annotation PBI_RemovedChildren = [{"remoteItemId":{"analysisServicesObject":{"sourceName":null,"sourceLineageTag":"[dbo].[silver_fx_rates]"}},"objectType":"Table"}]
+

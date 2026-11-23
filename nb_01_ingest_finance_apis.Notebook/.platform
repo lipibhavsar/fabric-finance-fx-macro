@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Notebook",
+    "displayName": "nb_01_ingest_finance_apis"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "f4e8cc34-f9ee-9e88-446c-32c791bb01cf"
+  }
+}

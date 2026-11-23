@@ -1,0 +1,4 @@
+relationship 18b8f366-4f19-bfd2-95f5-0c05bf1056aa
+	fromColumn: gold_fact_fx_rates.currency_id
+	toColumn: gold_dim_currency.currency_id
+

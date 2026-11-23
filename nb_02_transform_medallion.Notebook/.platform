@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Notebook",
+    "displayName": "nb_02_transform_medallion"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "e7b0f40a-4882-b2d6-449e-6f0745d18dc1"
+  }
+}

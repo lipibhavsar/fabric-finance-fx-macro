@@ -1,0 +1,113 @@
+table gold_fact_fx_rates
+	lineageTag: ea19621f-501d-4031-9492-cd8025ea9f72
+	sourceLineageTag: [dbo].[gold_fact_fx_rates]
+
+	measure 'Latest FX Rate Label' =
+			
+			FORMAT(AVERAGE(gold_fact_fx_rates[exchange_rate]), "0.00") & " " & SELECTEDVALUE(gold_dim_currency[currency_code])
+		lineageTag: f15c95d4-43e6-44e3-a0db-a1bf2fdec7d6
+
+		changedProperty = Name
+
+	measure '45D High Low Range' =
+			
+			FORMAT(MAX(gold_fact_fx_rates[exchange_rate]), "0.00") & " / " & FORMAT(MIN(gold_fact_fx_rates[exchange_rate]), "0.00")
+		lineageTag: 6e8bf719-51d4-4c91-983d-fb9cd83d0a44
+
+		changedProperty = Name
+
+	measure '45-Day Change %' = ```
+			
+			VAR MaxDate = MAX('gold_fact_fx_rates'[rate_date])
+			VAR MinDate = 
+			    CALCULATE(
+			        MIN('gold_fact_fx_rates'[rate_date]),
+			        DATESINPERIOD('gold_fact_fx_rates'[rate_date], MaxDate, -45, DAY)
+			    )
+			VAR FirstRate = 
+			    CALCULATE(
+			        AVERAGE('gold_fact_fx_rates'[exchange_rate]),
+			        'gold_fact_fx_rates'[rate_date] = MinDate
+			    )
+			VAR LastRate = 
+			    CALCULATE(
+			        AVERAGE('gold_fact_fx_rates'[exchange_rate]),
+			        'gold_fact_fx_rates'[rate_date] = MaxDate
+			    )
+			VAR PctChange = DIVIDE(LastRate - FirstRate, FirstRate)
+			RETURN
+			    FORMAT(PctChange, "+0.00%;-0.00%;0.00%")
+			
+			```
+		lineageTag: dbd9a268-26e2-4dd9-9026-a803261be066
+
+		changedProperty = Name
+
+	measure 'All Economies GDP (USD)' =
+			
+			CALCULATE(
+			    SUM(gold_dim_currency[gdp_trillions_usd]),
+			    REMOVEFILTERS(gold_dim_currency[currency_code])
+			)
+		lineageTag: 1b720282-6d95-4ae9-b23a-452c164c9a56
+
+		changedProperty = Name
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column rate_date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: c9c08925-d604-4e14-966c-756bac833669
+		sourceLineageTag: rate_date
+		summarizeBy: none
+		sourceColumn: rate_date
+
+		annotation SummarizationSetBy = Automatic
+
+	column currency_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 38bd9e67-72ec-44b2-aa03-9209515ed20c
+		sourceLineageTag: currency_id
+		summarizeBy: none
+		sourceColumn: currency_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column base_currency
+		dataType: string
+		lineageTag: 6d7372a0-7534-4d85-9137-85ed2a30dfcd
+		sourceLineageTag: base_currency
+		summarizeBy: none
+		sourceColumn: base_currency
+
+		annotation SummarizationSetBy = Automatic
+
+	column target_currency
+		dataType: string
+		lineageTag: f4839b07-3b35-4b1f-b87e-1cc7d60c20e2
+		sourceLineageTag: target_currency
+		summarizeBy: none
+		sourceColumn: target_currency
+
+		annotation SummarizationSetBy = Automatic
+
+	column exchange_rate
+		dataType: double
+		lineageTag: f04f255f-aaa5-4168-81b4-a1a07d564345
+		sourceLineageTag: exchange_rate
+		summarizeBy: sum
+		sourceColumn: exchange_rate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition gold_fact_fx_rates = entity
+		mode: directLake
+		source
+			entityName: gold_fact_fx_rates
+			schemaName: dbo
+			expressionSource: 'DirectLake - lh_finance_fx_macro'
+

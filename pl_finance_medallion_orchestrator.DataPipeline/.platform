@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "DataPipeline",
+    "displayName": "pl_finance_medallion_orchestrator"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "f4d60bf4-0d06-97cb-42b3-faa5ce7a6416"
+  }
+}

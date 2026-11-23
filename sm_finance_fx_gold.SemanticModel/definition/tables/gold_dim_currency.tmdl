@@ -1,0 +1,85 @@
+table gold_dim_currency
+	lineageTag: 971b5e98-6150-4343-ae0f-26256eb5e0ba
+	sourceLineageTag: [dbo].[gold_dim_currency]
+
+	measure 'Country GDP Label' =
+			
+			"$" & FORMAT(SUM(gold_dim_currency[gdp_trillions_usd]), "0.00") & "T"
+		lineageTag: 3e93cb77-df52-4fcd-b2a7-f17e4d341608
+
+		changedProperty = Name
+
+	column currency_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 376ea43e-c505-4312-a516-7904f3278168
+		sourceLineageTag: currency_id
+		summarizeBy: none
+		sourceColumn: currency_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column currency_code
+		dataType: string
+		lineageTag: f35f85a0-5e2b-4d3d-97b4-3d7532c57673
+		sourceLineageTag: currency_code
+		summarizeBy: none
+		sourceColumn: currency_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column currency_name
+		dataType: string
+		lineageTag: 99740afe-2cc3-4585-b6bd-4efb2674aee8
+		sourceLineageTag: currency_name
+		summarizeBy: none
+		sourceColumn: currency_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column country_iso3
+		dataType: string
+		lineageTag: f00bd529-bcba-44dd-b9ca-5d79f0c7d321
+		sourceLineageTag: country_iso3
+		summarizeBy: none
+		sourceColumn: country_iso3
+
+		annotation SummarizationSetBy = Automatic
+
+	column country_name
+		dataType: string
+		lineageTag: 704a821f-0917-414e-ab48-6e93d88e146c
+		sourceLineageTag: country_name
+		summarizeBy: none
+		sourceColumn: country_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column gdp_reference_year
+		dataType: int64
+		formatString: 0
+		lineageTag: 1285ec9c-b20f-49a0-a1c8-d134a0815bf3
+		sourceLineageTag: gdp_reference_year
+		summarizeBy: none
+		sourceColumn: gdp_reference_year
+
+		annotation SummarizationSetBy = Automatic
+
+	column gdp_trillions_usd
+		dataType: double
+		lineageTag: 34502a10-0852-4413-9f2c-3861e03154e5
+		sourceLineageTag: gdp_trillions_usd
+		summarizeBy: none
+		sourceColumn: gdp_trillions_usd
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition gold_dim_currency = entity
+		mode: directLake
+		source
+			entityName: gold_dim_currency
+			schemaName: dbo
+			expressionSource: 'DirectLake - lh_finance_fx_macro'
+
